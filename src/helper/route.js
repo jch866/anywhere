@@ -12,7 +12,7 @@ let stat = util.promisify(fs.stat);
 let readdirList = util.promisify(fs.readdir);
 
 //拼接绝对路径
-let filepath = path.join(__dirname,'../view/dir.tpl');
+let filepath = path.join(__dirname,'../view/dir.html');
 let source  = fs.readFileSync(filepath);
 //编译模板
 let template = handlebars.compile(source.toString())
