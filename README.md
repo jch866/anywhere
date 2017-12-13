@@ -1,0 +1,2 @@
+# anywhere
+static resource
