@@ -8,6 +8,8 @@ const handlebars = require('handlebars');
 
 const config = require('../config/defaultConfig');
 
+const mimeType = require('./mime');
+
 let stat = util.promisify(fs.stat);
 let readdirList = util.promisify(fs.readdir);
 
@@ -21,20 +23,30 @@ module.exports = async function (req,res,fpath) {
         try{
             let stats = await stat(fpath);
             if(stats.isFile()){
+                //返回识别的文件
+                let contentType = mimeType(fpath);
+                //console.log(contentType)
                 res.statusCode=200;
-                res.setHeader('Content-Type','text/plain');
+                res.setHeader('Content-Type',contentType);
                 fs.createReadStream(fpath).pipe(res) //这个以流的方式读的速度快
             }else if(stats.isDirectory()){
                 let files = await readdirList(fpath);
+                res.statusCode=200;
+                res.setHeader('Content-Type','text/html');
                 //对文件路径的处理
                 let dir = path.relative(config.root,fpath) ;
                 let data = {
                     title:path.basename(fpath),
-                    files,
+                    files:files.map((file)=>{
+                        return {
+                            file,
+                            //todo  find some icons
+                            typeOrIcon:mimeType(file)
+                        }
+                    }),
                     dir:dir?`${dir}`:'',
                 }
-                res.statusCode=200;
-                res.setHeader('Content-Type','text/html');
+
                 res.end(template(data));
             }
         }catch (err){
