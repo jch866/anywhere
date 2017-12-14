@@ -8,7 +8,9 @@ const handlebars = require('handlebars');
 
 const config = require('../config/defaultConfig');
 
+
 const mimeType = require('./mime');
+const compress = require('./compress');
 
 let stat = util.promisify(fs.stat);
 let readdirList = util.promisify(fs.readdir);
@@ -28,7 +30,12 @@ module.exports = async function (req,res,fpath) {
                 //console.log(contentType)
                 res.statusCode=200;
                 res.setHeader('Content-Type',contentType);
-                fs.createReadStream(fpath).pipe(res) //这个以流的方式读的速度快
+                let rs = fs.createReadStream(fpath);
+                if(fpath.match(config.compress)){
+                    rs=compress(rs,req,res);
+                }
+                console.log(rs)
+                rs.pipe(res) //这个以流的方式读的速度快
             }else if(stats.isDirectory()){
                 let files = await readdirList(fpath);
                 res.statusCode=200;
