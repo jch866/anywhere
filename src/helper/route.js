@@ -8,9 +8,9 @@ const handlebars = require('handlebars');
 
 const config = require('../config/defaultConfig');
 
-
 const mimeType = require('./mime');
 const compress = require('./compress');
+const range = require('./range');
 
 let stat = util.promisify(fs.stat);
 let readdirList = util.promisify(fs.readdir);
@@ -28,13 +28,20 @@ module.exports = async function (req,res,fpath) {
                 //返回识别的文件
                 let contentType = mimeType(fpath);
                 //console.log(contentType)
-                res.statusCode=200;
+
                 res.setHeader('Content-Type',contentType);
-                let rs = fs.createReadStream(fpath);
+                let rs;
+                let {code,start,end}= range(stats.size,req,res);
+                if(code ==200){
+                    res.statusCode=200;
+                    rs = fs.createReadStream(fpath);
+                }else{
+                    res.statusCode=206;
+                    rs = fs.createReadStream(fpath,{start,end});
+                }
                 if(fpath.match(config.compress)){
                     rs=compress(rs,req,res);
                 }
-                console.log(rs)
                 rs.pipe(res) //这个以流的方式读的速度快
             }else if(stats.isDirectory()){
                 let files = await readdirList(fpath);
@@ -57,7 +64,7 @@ module.exports = async function (req,res,fpath) {
                 res.end(template(data));
             }
         }catch (err){
-            console.log(err)
+            //console.log(err)
             errTip(req,res,fpath)
         }
 
@@ -66,5 +73,5 @@ module.exports = async function (req,res,fpath) {
 let errTip=(req,res,fpath)=>{
     res.statusCode=404;
     res.setHeader('Content-Type','text/plain');
-    res.end(`${fpath} is not exits or not direction or file`)
+    res.end(`${fpath} is not exits or not direction or file -----------`)
 }

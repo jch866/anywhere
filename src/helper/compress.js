@@ -5,7 +5,7 @@ const {createGzip,createDeflate}=require('zlib');
 //const cfg = require('../config/defaultConfig')
 module.exports = (readstream,req,res)=>{
     let acceptEncoding = req.headers['accept-encoding'];
-    if(!acceptEncoding){
+    if(!acceptEncoding || !acceptEncoding.match(/\b(gzip|deflate)\b/)){
         return readstream
     }else if(acceptEncoding.match(/\bgzip\b/)){
         res.setHeader('Content-Encoding','gzip')
