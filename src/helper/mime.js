@@ -15,7 +15,7 @@ const mime = {
     'tgz':' application/x-compressed',
     'zip':' application/x-zip-compressed',
     'wav':'audio/wav',
-    'wma':'audio/x-ms-wma',
+    'json':'application/json',
     'wmv':'video/x-ms-wmv',
     'bmp':'  image/bmp',
     'gif':'  image/gif',
@@ -23,16 +23,17 @@ const mime = {
     'jpg':'  image/jpeg',
     'jpeg':'  image/jpeg',
     'txt':'    text/plain',
+    'md':'    text/plain',
     'xml':'  text/xml',
     'html':'   text/html',
     'css':'   text/css',
     'js':'    text/javascript'
-}
+};
 module.exports =  (filepath)=>{
     //pop()返回数组最后一个值
     let ext = path.extname(filepath).split('.').pop().toLowerCase();
     //console.log(ext)
-    if(ext){
+    if(ext){ //可能后缀没在mime里面定义，就会报错 不太严谨
         return mime[ext]
     }else{
         ext = filepath;

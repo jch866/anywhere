@@ -25,7 +25,7 @@ module.exports = function isRefresh(stats,req,res){
     refreshRes(stats,res);
     let lastmodified = req.headers['if-modified-since'];//从浏览器中读最后修改时间
     let etag  = req.headers['if-none-match'];
-    console.log(req.headers)
+    //console.log(req.headers)
 
     if(!lastmodified  && !etag){
         return false

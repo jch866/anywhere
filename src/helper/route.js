@@ -6,8 +6,6 @@ const util = require('util');
 const path = require('path');
 const handlebars = require('handlebars');
 
-const config = require('../config/defaultConfig');
-
 const mimeType = require('./mime');
 const compress = require('./compress');
 const range = require('./range');
@@ -22,13 +20,12 @@ let source  = fs.readFileSync(filepath);
 //编译模板
 let template = handlebars.compile(source.toString())
 
-module.exports = async function (req,res,fpath) {
+module.exports = async function (req,res,fpath,config) {
         try{
             let stats = await stat(fpath);
             if(stats.isFile()){
                 //返回识别的文件
                 let contentType = mimeType(fpath);
-                //console.log(contentType)
                 res.setHeader('Content-Type',contentType);
                 if(isRefresh(stats,req,res)){
                     res.statusCode=304;
@@ -37,7 +34,7 @@ module.exports = async function (req,res,fpath) {
                 }
                 let rs;
                 let {code,start,end}= range(stats.size,req,res);
-                if(code ==200){
+                if(code ===200){
                     res.statusCode=200;
                     rs = fs.createReadStream(fpath);
                 }else{

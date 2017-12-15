@@ -1,8 +1,11 @@
 {
   "name": "anywhere",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "static resource",
-  "main": "app.js",
+  "main": "src/app.js", //app文件被调用时
+  "bin":{
+    anywhere:"bin/anywhere"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +21,7 @@
   "homepage": "https://github.com/jch866/anywhere#readme",
   "dependencies": {
     "chalk": "^2.3.0",
-    "handlebars": "^4.0.11"
+    "handlebars": "^4.0.11",
+    "yargs": "^10.0.3"
   }
 }
