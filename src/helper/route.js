@@ -11,6 +11,7 @@ const config = require('../config/defaultConfig');
 const mimeType = require('./mime');
 const compress = require('./compress');
 const range = require('./range');
+const isRefresh = require('./cache');
 
 let stat = util.promisify(fs.stat);
 let readdirList = util.promisify(fs.readdir);
@@ -28,8 +29,12 @@ module.exports = async function (req,res,fpath) {
                 //返回识别的文件
                 let contentType = mimeType(fpath);
                 //console.log(contentType)
-
                 res.setHeader('Content-Type',contentType);
+                if(isRefresh(stats,req,res)){
+                    res.statusCode=304;
+                    res.end();
+                    return;
+                }
                 let rs;
                 let {code,start,end}= range(stats.size,req,res);
                 if(code ==200){
@@ -64,7 +69,7 @@ module.exports = async function (req,res,fpath) {
                 res.end(template(data));
             }
         }catch (err){
-            //console.log(err)
+            console.log(err)
             errTip(req,res,fpath)
         }
 
