@@ -2,9 +2,9 @@
   "name": "anywhere",
   "version": "0.1.0",
   "description": "static resource",
-  "main": "src/app.js", //app文件被调用时
+  "main": "src/app.js",
   "bin":{
-    anywhere:"bin/anywhere"
+    "anywhere":"bin/anywhere"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
