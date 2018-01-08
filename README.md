@@ -1,5 +1,6 @@
 ### anywhere
 static resource
+Running static file server anywhere. 将当前目录变成一个静态文件服务器的根目录。
 
 #### curl 使用方法
 curl -I  http://127.0.0.1:8256/app.js   header
