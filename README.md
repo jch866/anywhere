@@ -9,7 +9,7 @@ curl -r 2-300 -i http://127.0.0.1:8256/app.js    specify range
 
 ## 安装
 ```
-npm insatll -g anywhere
+npm insatll -g anywhere_jc
 ```
 ## 使用方法
 ```
