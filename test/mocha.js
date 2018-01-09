@@ -35,7 +35,7 @@ describe('#math', () => {
             expect(cover(3,3)).to.equal(0)
         })
         it('should return 3 when a<b',()=>{
-            expect(cover(2,3),).to.equal(3)
+            expect(cover(2,3)).to.equal(3)
         })
     })
 })
