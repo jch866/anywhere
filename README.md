@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jch866/anywhere.svg?branch=master)](https://travis-ci.org/jch866/anywhere)
+[![codecov](https://codecov.io/gh/jch866/anywhere/branch/master/graph/badge.svg)](https://codecov.io/gh/jch866/anywhere)
 ### anywhere
 static resource
 Running static file server anywhere. 将当前目录变成一个静态文件服务器的根目录。
