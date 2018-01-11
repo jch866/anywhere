@@ -56,4 +56,10 @@ typings/
 
 # dotenv environment variables file
 .env
+chromium/
+coverage/
 
+headless-crawler/screenshot/*.png
+headless-crawler/baidu_img/*.jpg
+headless-crawler/baidu_img/*.png
+headless-crawler/baidu_img/*.gif
